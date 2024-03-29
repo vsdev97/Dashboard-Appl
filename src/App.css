@@ -1,38 +1,356 @@
-.App {
-  text-align: center;
-}
+@import "./theme/styles/dark.css";
+@import "./theme/styles/light.css";
+@import "./theme/styles/blue.css";
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#root,
+body,
+html {
+  /* font-weight: 400; */
+  height: 100%;
+  overflow: auto;
+  width: 100%;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+main {
+  width: 100%;
+  /* padding: 20px; */
+  /* height: 100%; */
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.sidebar {
+  background-color: var(--sidebar-bg-color);
+  color: #fff;
+  height: 100vh;
+  width: 350px;
+  transition: all 0.1s;
+}
+.top_section {
   display: flex;
-  flex-direction: column;
+  /* align-items: center; */
+  padding: 8px 8px;
+  background-color: var(--sidebar-bg-top);
+  justify-content: space-between;
+}
+.aside_avatar {
+  border-radius: 0.125rem;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  letter-spacing: 0.05em;
+  width: 35px;
+  min-width: 35px;
+  height: 35px;
+  background-color: var(--sidebar-bg-user);
+  color: #fff;
+}
+.logo {
+  font-size: 15px;
+}
+.bars {
+  display: flex;
+  font-size: 25px;
+  align-items: center;
+  color: var(--hamberger-text);
+  /* justify-content: center; */
+  /* margin-left: 7px; */
+}
+.link {
+  display: flex;
+  color: var(--kpi-text);
+  padding: 0 8px;
+  margin-top: 0.75rem;
+  /* overflow-x: hidden; */
+  /* overflow-y: auto; */
+  align-items: center;
+  /* justify-content: center; */
+  gap: 15px;
+  height: 38px;
+  margin-left: 7px;
+  transition: all 0.1s;
 }
 
-.App-link {
-  color: #61dafb;
+/* .side_menu_a {
+  align-items: center;
+  border-radius: 0.25rem;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+  height: 38px;
+  /* overflow: hidden; */
+/* padding: 6px; */
+/* position: relative; */
+/* text-decoration: none; */
+/* transition: all 0.2s ease;  */
+/* } */
+/* .link:hover {
+  background: lightskyblue;
+  color: #000;
+  transition: all 0.1s;
+} */
+/* .active {
+  background: lightskyblue;
+  color: #000;
+} */
+.icon,
+.link_text {
+  font-size: 15px;
+}
+.toggleView {
+  margin-left: 50px !important;
+}
+.theme {
+  @apply text-sm tracking-wider my-1 flex items-center justify-center cursor-pointer rounded-full flex-col  ml-0 mr-3;
+  width: 22px;
+  height: 22px;
+
+  &.dark {
+    background: #666666;
+  }
+  &.blue {
+    background: #27a8e0;
+  }
+  &.light {
+    background: #cccccc !important;
+  }
+}
+.logout {
+  @apply inline-flex cursor-pointer pt-2 text-lg;
+  color: var(--logout-text-color);
+  svg {
+    display: inline-block;
+  }
+}
+.aside_avatar {
+  &_wrap {
+    @apply flex items-center;
+    margin-left: 0 !important;
+    padding-top: 12px;
+  }
+  @apply flex items-center justify-center tracking-wider rounded-sm;
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  background-color: var(--sidebar-bg-user);
+  color: var(--text-color);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.smallDisplayFlex {
+  @apply hidden;
+}
+
+.aside_menus {
+  z-index: 9999;
+  padding: 0;
+
+  .toggleMenu {
+    @apply cursor-pointer relative;
+
+    &_close {
+      @apply cursor-pointer absolute flex rounded-full;
+      right: -5px;
+      top: 0;
+      background: #969696;
+      color: #fff;
+      padding: 2px;
+      visibility: hidden;
+    }
   }
-  to {
-    transform: rotate(360deg);
+  &_header {
+    @apply py-2.5 px-2;
+    background-color: #0c192d;
+    @media screen(md) {
+      background-color: #16263c;
+    }
   }
+  &_body {
+    @apply flex-1 mt-3 items-center justify-center overflow-y-auto overflow-x-hidden;
+    padding: 0 8px;
+  }
+  &_foot {
+    @apply flex items-center;
+    padding: 8px 2px;
+    border-top: 1px solid #16263c;
+    box-shadow: 0px -2px 4px rgb(0 0 0 / 20%);
+
+    /* background: var(--aside-menu-header-bg-color); */
+
+    p {
+      @apply whitespace-nowrap mt-0 ml-3 text-base;
+      span {
+        @apply text-lg;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .aside_menus_header {
+    @apply py-3 px-2;
+    background-color: #16263c;
+  }
+  .aside_menus,
+  .popup-content {
+    background-color: #ffffff;
+    border-right: 1px solid #6480a1;
+  }
+  .sectionMarginSet {
+    width: calc(100% - 54px);
+    margin-left: 54px;
+  }
+  .aside_menus,
+  .aside_menus.menuClose {
+    z-index: 9999;
+  }
+  .aside_menus.menuOpen {
+    width: 300px;
+  }
+  .smallDisplay {
+    @apply block;
+  }
+  .smallDisplayFlex {
+    @apply flex;
+  }
+}
+
+.name_overflow {
+  @apply truncate pr-2;
+}
+
+.aside_menus.menuClose {
+  width: 54px;
+  z-index: 1000;
+
+  .icon {
+    visibility: hidden;
+  }
+
+  .mini {
+    visibility: hidden;
+    display: none;
+  }
+  .side_menu_a.active {
+    /* background:var(--aside-menu-active-icon-bg-color); */
+    background-color: #213859;
+  }
+}
+
+.aside_menus.menuOpen {
+  width: 100%;
+  /* background: var(--aside-menu-header-bg-color); */
+  .pepLogo {
+    visibility: visible;
+  }
+
+  .icon {
+    visibility: visible;
+  }
+
+  .mini {
+    visibility: visible;
+    display: block;
+  }
+  .toggleMenu {
+    .toggleMenu_close {
+      visibility: visible;
+    }
+    &:hover {
+      .toggleMenu_close {
+        background: #eb1d39;
+      }
+    }
+  }
+  .side_menu_a.active {
+    background-color: #16263c;
+  }
+  .mainMenuOverlay {
+    left: 300px;
+  }
+}
+
+.aside_menus {
+  background: #213859;
+}
+
+.aside_menus,
+.popup-content {
+  background-color: none;
+  /* @media screen(md) { */
+  background: #213859;
+  border-right: 1px solid #699feb;
+  /* } */
+}
+.side_menu_a_wrap{
+  background: var(--aside-menu-bg-color);
+  border-radius: .25rem;
+  font-size: 1rem;
+  height: 26px;
+  line-height: 1.5rem;
+  min-width: 26px;
+  width: 26px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.side_menu_a_wrap_icon{
+  color: var(--aside-menu-icon-color);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+};
+
+.side_menu_a_wrap_icon_patching{
+  color: var(--aside-menu-bg-color);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+};
+
+.side_menu_wrap{
+  background: var(--aside-menu-bg-colors);
+  border-radius: .25rem;
+  font-size: 1rem;
+  height: 26px;
+  line-height: 1.5rem;
+  min-width: 26px;
+  width: 26px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.icon {
+  position: relative; /* Make sure the container is relatively positioned */
+}
+
+.icon:hover::after {
+  content: attr(data-tooltip); /* Get the tooltip text from the data-tooltip attribute */
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 10px); /* Position the tooltip to the right of the icon */
+  transform: translateY(-50%);
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.8); /* Background color of the tooltip */
+  color: #fff; /* Text color of the tooltip */
+  font-size: 14px; /* Increase font size */
+  border-radius: 5px;
+  white-space: nowrap;/* Ensure tooltip text doesn't wrap */
+}
+
+.link_text {
+  display: none; /* Hide the text initially */
+}
+
+/* Show the text on hover */
+.icon:hover + .link_text {
+  display: block;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+:hover::-webkit-scrollbar-thumb {
+	background: var(--app-scroll);
 }

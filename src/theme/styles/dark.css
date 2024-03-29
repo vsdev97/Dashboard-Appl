@@ -1,0 +1,12 @@
+[data-theme="dark"] {
+  --text-color: #e6e6e6;
+  --bg-color: #0a0a0a;
+  --sidebar-bg-color: #535353;
+  --sidebar-bg-top: #222;
+  --kpi-bg: #161616;
+  --sidebar-bg-user: #4f4f4f;
+  --aside-menu-bg-color: #fff;
+  --aside-menu-bg-colors: #27a8e0;
+  --sidebar-border: #ffffff;
+  --aside-menu-icon-color: #161616;
+}
