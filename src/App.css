@@ -354,3 +354,17 @@ main {
 :hover::-webkit-scrollbar-thumb {
 	background: var(--app-scroll);
 }
+
+.global_togglePopup-body{
+  display: flex;
+  flex-direction: column;
+  padding-bottom: .25rem;
+  padding-top: .25rem;
+  align-items: center;
+  color: #fff;
+  background-color: #666;
+  cursor: pointer;
+  display: flex;
+  padding: .25rem .75rem;
+  white-space: nowrap;
+}

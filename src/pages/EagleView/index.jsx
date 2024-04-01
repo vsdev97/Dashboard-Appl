@@ -115,24 +115,16 @@ const EagleView = () => {
           </div>
         </div>
         <div className="flex flex-row justify-between gap-3">
-          <ChartWidget data={barChartData} chartType="line" title="Windows Patch Trend" />
-          <ChartWidget data={lineChartData} chartType="line" title="Linux Patch Trend" />
+          <ChartWidget data={barChartData} title="Windows Patch Trend" />
+          <ChartWidget data={lineChartData} title="Linux Patch Trend" />
         </div>
         <div className="flex flex-row justify-between gap-3">
-          <ChartWidget data={patchChartData} chartType="line" title="Compliant Vs Non Compliant" />
-          <ChartWidget
-            data={complianceChartData}
-            chartType="line"
-            title="Window Patch Compliance"
-          />
+          <ChartWidget data={patchChartData} title="Compliant Vs Non Compliant" />
+          <ChartWidget data={complianceChartData} title="Window Patch Compliance" />
         </div>
         <div className="flex flex-row justify-between gap-3">
           <ChartWidget data={complianceData} chartType="bar" title="Linux Patch Compliance" />
-          <ChartWidget
-            data={countData}
-            chartType="bar"
-            title="Last Patched - Aging Chart (Count)"
-          />
+          <ChartWidget data={countData} title="Last Patched - Aging Chart (Count)" />
         </div>
       </div>
     </div>
