@@ -1,6 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 import Popup from "reactjs-popup";
+import {
+  WidgetOptIcon,
+  ChartOptionsIcon,
+  MaximizeIcon,
+  BarChartSvg,
+  LineChartSvg,
+  AreaChartSvg,
+  HorizontalChartSvg,
+  DonutChartSvg,
+  RefreshIcon,
+  DownloadIcon,
+  EmailIcon,
+} from "../../Icons";
 
 const CHART_CONTAINER_STYLE = {
   position: "relative",
@@ -12,12 +25,12 @@ const CHART_CONTAINER_STYLE = {
   borderRadius: "10px",
 };
 
-const ChartWidget = ({ data, title }) => {
+const ChartWidget = ({ data, title, defaultChartType }) => {
   const chartRef = useRef(null);
 
-  const [chartType, setChartType] = useState("bar"); // Default chart type is bar
-  const [chartOptionPopup, setChartOptionPopup] = React.useState(false);
-  const [pieIndex, setPieIndex] = React.useState(0);
+  const [chartType, setChartType] = useState(defaultChartType || "bar");
+  const [chartOptionPopup, setChartOptionPopup] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     if (chartRef.current) {
@@ -36,185 +49,142 @@ const ChartWidget = ({ data, title }) => {
   };
 
   const generateOptions = (chartType, data, title) => {
-    let options = {};
+    const commonOptions = {
+      title: {
+        text: title,
+        textStyle: {
+          fontSize: "15.75px",
+          color: "#E6E6E6",
+          fontWeight: "400",
+          fontFamily: "ui-sans-serif, system-ui",
+        },
+      },
+      toolbox: {
+        show: true,
+        iconStyle: {
+          color: "none",
+          borderColor: "#B9B8CE",
+        },
+        z: 6,
+        backgroundColor: "transparent",
+        borderRadius: 0,
+        borderWidth: 0,
+        borderColor: "#ccc",
+      },
+      legend: {
+        show: true,
+        textStyle: {
+          color: "#E6E6E6",
+        },
+      },
+      tooltip: {
+        show: true,
+      },
+    };
+
     switch (chartType) {
       case "bar":
-        options = generateBarChartOptions(data, title);
-        break;
-      case "line":
-        options = generateLineChartOptions(data, title);
-        break;
-      // case "area":
-      //   options = generateAreaChartOptions(data, title);
-      //   break;
-      case "pie":
-        options = generatePieChartOptions(data, title);
-        break;
-      default:
-        break;
-    }
-    return options;
-  };
-
-  const generateBarChartOptions = (data, title) => {
-    return {
-      title: {
-        text: title,
-        textStyle: {
-          fontSize: "15.75px",
-          color: "#E6E6E6",
-          fontWeight: "400",
-          fontFamily: "ui-sans-serif, system-ui",
-        },
-      },
-      toolbox: {
-        show: true,
-        // feature: {
-        //   dataView: { readOnly: false },
-        //   magicType: { type: ["line", "bar"] },
-        //   // restore: {},
-        //   saveAsImage: {},
-        // },
-        iconStyle: {
-          color: "none",
-          borderColor: "#B9B8CE",
-        },
-        z: 6,
-        backgroundColor: "transparent",
-        borderRadius: 0,
-        borderWidth: 0,
-        borderColor: "#ccc",
-      },
-      xAxis: {
-        type: "category",
-        data: data.categories,
-        splitLine: {
-          show: false,
-        },
-        showGrid: false,
-      },
-      legend: {},
-      yAxis: {
-        type: "value",
-        splitLine: {
-          show: false,
-        },
-        showGrid: false,
-      },
-      tooltip: {
-        show: true,
-      },
-      series: [
-        {
-          data: data.values,
-          type: "bar",
-          color: ["#91ca8c", "#f49f42"],
-        },
-      ],
-    };
-  };
-
-  const generateLineChartOptions = (data, title) => {
-    return {
-      title: {
-        text: title,
-        textStyle: {
-          fontSize: "15.75px",
-          color: "#E6E6E6",
-          fontWeight: "400",
-          fontFamily: "ui-sans-serif, system-ui",
-        },
-      },
-      toolbox: {
-        show: true,
-        // feature: {
-        //   dataView: { readOnly: false },
-        //   magicType: { type: ["line", "bar"] },
-        //   // restore: {},
-        //   saveAsImage: {},
-        // },
-        iconStyle: {
-          color: "none",
-          borderColor: "#B9B8CE",
-        },
-        z: 6,
-        backgroundColor: "transparent",
-        borderRadius: 0,
-        borderWidth: 0,
-        borderColor: "#ccc",
-      },
-      xAxis: {
-        type: "category",
-        data: data.categories,
-        splitLine: {
-          show: false,
-        },
-        showGrid: false,
-      },
-      yAxis: {
-        type: "value",
-        splitLine: {
-          show: false,
-        },
-        showGrid: false,
-      },
-      tooltip: {
-        show: true,
-      },
-      series: [
-        {
-          data: data.values,
-          type: "line",
-        },
-      ],
-    };
-  };
-
-  const generatePieChartOptions = (data, title) => {
-    return {
-      title: {
-        text: title,
-        textStyle: {
-          fontSize: "15.75px",
-          color: "#E6E6E6",
-          fontWeight: "400",
-          fontFamily: "ui-sans-serif, system-ui",
-        },
-      },
-      tooltip: {
-        trigger: "item",
-      },
-      series: [
-        {
-          type: "pie",
-          radius: ["40%", "70%"],
-          avoidLabelOverlap: false,
-          label: {
-            show: true,
-            position: "center",
-          },
-          emphasis: {
-            label: {
-              show: true,
-              fontSize: 40,
-              fontWeight: "bold",
+      case "horizontal":
+        return {
+          ...commonOptions,
+          xAxis: {
+            type: chartType === "horizontal" ? "value" : "category",
+            data: data.categories,
+            splitLine: {
+              show: false,
             },
+            showGrid: false,
           },
-          labelLine: {
-            show: false,
+          yAxis: {
+            type: chartType === "horizontal" ? "category" : "value",
+            splitLine: {
+              show: false,
+            },
+            showGrid: false,
           },
-          data: data?.values,
-          // data?.values?.[pieIndex]?.value?.map((val, i) => ({
-          //   label: `${data.xAxis[i]}`,
-          //   value: val,
-          // })),
-        },
-      ],
-    };
+          series: [
+            {
+              data: data.values,
+              type: "bar",
+              color: ["#82a66c", "#63bdf6"],
+            },
+          ],
+        };
+      case "line":
+      case "area":
+        return {
+          ...commonOptions,
+          xAxis: {
+            type: "category",
+            data: data.categories,
+            splitLine: {
+              show: false,
+            },
+            showGrid: false,
+          },
+          yAxis: {
+            type: "value",
+            splitLine: {
+              show: false,
+            },
+            showGrid: false,
+          },
+          series: [
+            {
+              data: data.values,
+              type: chartType === "line" ? "line" : "line",
+              areaStyle: chartType === "area" ? {} : null,
+            },
+          ],
+        };
+      case "pie":
+        return {
+          ...commonOptions,
+          tooltip: {
+            trigger: "item",
+          },
+          series: [
+            {
+              type: "pie",
+              radius: ["40%", "70%"],
+              avoidLabelOverlap: false,
+              label: {
+                show: true,
+                position: "center",
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: 40,
+                  fontWeight: "bold",
+                },
+              },
+              labelLine: {
+                show: false,
+              },
+              data: data?.values,
+            },
+          ],
+        };
+      default:
+        return commonOptions;
+    }
+  };
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
   };
 
   return (
     <div style={CHART_CONTAINER_STYLE}>
+      {refreshing && (
+        <div className="w-full h-full flex justify-center items-center absolute inset-0  bg-opacity-75 bg-gray-900">
+          Loading...
+        </div>
+      )}
       <div ref={chartRef} style={{ width: "100%", height: "100%" }} />
       <Popup
         trigger={
@@ -222,24 +192,13 @@ const ChartWidget = ({ data, title }) => {
             style={{
               position: "absolute",
               top: "10px",
-              right: "10px",
+              right: "40px",
               cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            <svg
-              stroke="currentColor"
-              fill="currentColor"
-              strokeWidth="0"
-              viewBox="0 0 24 24"
-              height="22"
-              width="22"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g>
-                <path fill="none" d="M0 0h24v24H0z"></path>
-                <path d="M12.414 5H21a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7.414l2 2zM11 9v8h2V9h-2zm4 3v5h2v-5h-2zm-8 2v3h2v-3H7z"></path>
-              </g>
-            </svg>
+            <WidgetOptIcon />
           </div>
         }
         position="bottom right"
@@ -252,40 +211,65 @@ const ChartWidget = ({ data, title }) => {
       >
         {(close) => (
           <div className="global_togglePopup-body">
-            <button
-              onClick={() => {
-                handleChartTypeChange("bar");
-                close();
-              }}
-            >
-              Bar Chart
-            </button>
-            <button
-              onClick={() => {
-                handleChartTypeChange("line");
-                close();
-              }}
-            >
-              Line Chart
-            </button>
-            {/* <button
-              onClick={() => {
-                handleChartTypeChange("area");
-                close();
-              }}
-            >
-              Area Chart
-            </button> */}
-            <button
-              onClick={() => {
-                handleChartTypeChange("pie");
-                close();
-              }}
-            >
-              Pie Chart
-            </button>
+            <div className="flex items-center gap-1">
+              <BarChartSvg /> <span onClick={() => handleChartTypeChange("bar")}>Bar Chart</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <LineChartSvg />
+              <span onClick={() => handleChartTypeChange("line")}>Line Chart</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <AreaChartSvg />
+              <span onClick={() => handleChartTypeChange("area")}>Area Chart</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <HorizontalChartSvg />
+              <span onClick={() => handleChartTypeChange("horizontal")}>Horizontal Chart</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <DonutChartSvg />
+              <span onClick={() => handleChartTypeChange("pie")}>Donut Chart</span>
+            </div>
           </div>
         )}
+      </Popup>
+
+      <Popup
+        trigger={
+          <div
+            style={{
+              position: "absolute",
+              top: "8px",
+              right: "6px",
+              cursor: "pointer",
+            }}
+          >
+            <ChartOptionsIcon />
+          </div>
+        }
+        position="bottom right"
+        on="click"
+        className={"global_togglePopup"}
+        closeOnDocumentClick
+      >
+        <div className="global_togglePopup-body">
+          <div className="flex items-center gap-1">
+            <MaximizeIcon />
+            <span>Maximize</span>
+          </div>
+          <div className="flex items-center gap-1" onClick={handleRefresh}>
+            <RefreshIcon />
+            <span>Refresh</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <DownloadIcon />
+            <span>Download</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <EmailIcon />
+            <span>Email</span>
+          </div>
+        </div>
       </Popup>
     </div>
   );

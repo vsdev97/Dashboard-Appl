@@ -3,7 +3,7 @@ import React from "react";
 import KpiTwoComponent from "../../components/Kpi/KpiTwo";
 import KPIOneComponent from "../../components/Kpi/KpiOne";
 import ChartWidget from "../../components/Widget/index";
-import { Three60Icon } from "../../Icons/index";
+import { FilterIcon, Three60Icon } from "../../Icons";
 
 const EagleView = () => {
   const kpiData = [
@@ -25,26 +25,26 @@ const EagleView = () => {
 
   const barChartData = {
     categories: ["Jan 2024", "Feb 2024", "Mar 2024"],
-    values: [0, 0, 15, 20, 10],
+    values: [0, 0, 15],
   };
 
   const lineChartData = {
     categories: ["Jan 2024", "Feb 2024", "Mar 2024"],
-    values: [20, 0, 15, 0, 10],
+    values: [20, 0, 15],
   };
 
   const patchChartData = {
     categories: ["Jan 2024", "Feb 2024", "Mar 2024"],
-    values: [0, 0, 25, 30, 0],
+    values: [0, 0, 25],
   };
   const complianceChartData = {
     categories: ["Jan 2024", "Feb 2024", "Mar 2024"],
-    values: [30, 10, 0, 0, 20],
+    values: [30, 10, 0],
   };
 
   const complianceData = {
     categories: ["Jan 2024", "Feb 2024", "Mar 2024"],
-    values: [100, 20, 0, 0, 0],
+    values: [100, 20, 0],
   };
 
   const countData = {
@@ -64,6 +64,14 @@ const EagleView = () => {
         }}
       >
         <Three60Icon /> &nbsp; <span style={{ fontSize: "16px", fontWeight: "600" }}>360 View</span>
+        <div
+          class="flex iconBg p-2 rounded cursor-pointer items-center ml-3"
+          aria-describedby="popup-182"
+        >
+          <div class="flex items-center w-full">
+            <FilterIcon />
+          </div>
+        </div>
       </div>
       <div
         style={{
@@ -115,16 +123,32 @@ const EagleView = () => {
           </div>
         </div>
         <div className="flex flex-row justify-between gap-3">
-          <ChartWidget data={barChartData} title="Windows Patch Trend" />
-          <ChartWidget data={lineChartData} title="Linux Patch Trend" />
+          <ChartWidget data={barChartData} title="Windows Patch Trend" defaultChartType="line" />
+          <ChartWidget data={lineChartData} title="Linux Patch Trend" defaultChartType="line" />
         </div>
         <div className="flex flex-row justify-between gap-3">
-          <ChartWidget data={patchChartData} title="Compliant Vs Non Compliant" />
-          <ChartWidget data={complianceChartData} title="Window Patch Compliance" />
+          <ChartWidget
+            data={patchChartData}
+            title="Compliant Vs Non Compliant"
+            defaultChartType="line"
+          />
+          <ChartWidget
+            data={complianceChartData}
+            title="Window Patch Compliance"
+            defaultChartType="bar"
+          />
         </div>
         <div className="flex flex-row justify-between gap-3">
-          <ChartWidget data={complianceData} chartType="bar" title="Linux Patch Compliance" />
-          <ChartWidget data={countData} title="Last Patched - Aging Chart (Count)" />
+          <ChartWidget
+            data={complianceData}
+            defaultChartType="bar"
+            title="Linux Patch Compliance"
+          />
+          <ChartWidget
+            data={countData}
+            title="Last Patched - Aging Chart (Count)"
+            defaultChartType="bar"
+          />
         </div>
       </div>
     </div>

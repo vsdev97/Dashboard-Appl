@@ -356,15 +356,14 @@ main {
 }
 
 .global_togglePopup-body{
-  display: flex;
   flex-direction: column;
-  padding-bottom: .25rem;
-  padding-top: .25rem;
   align-items: center;
-  color: #fff;
-  background-color: #666;
+  color: var(--text-color);
+  background: var(--sidebar-bg-color);
   cursor: pointer;
-  display: flex;
   padding: .25rem .75rem;
   white-space: nowrap;
+  align-items: center; 
+  font-size: 14px;
+  border-radius: 10px;
 }
