@@ -14,6 +14,7 @@ import {
   DownloadIcon,
   EmailIcon,
 } from "../../Icons";
+import { Loader } from "../loader";
 
 const CHART_CONTAINER_STYLE = {
   position: "relative",
@@ -182,7 +183,7 @@ const ChartWidget = ({ data, title, defaultChartType }) => {
     <div style={CHART_CONTAINER_STYLE}>
       {refreshing && (
         <div className="w-full h-full flex justify-center items-center absolute inset-0  bg-opacity-75 bg-gray-900">
-          Loading...
+          <Loader />  Loading...
         </div>
       )}
       <div ref={chartRef} style={{ width: "100%", height: "100%" }} />

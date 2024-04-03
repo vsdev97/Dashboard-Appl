@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useHotkeys } from "react-hotkeys-hook";
+
 import {
   FaCheck,
   FaChevronDown,
@@ -61,6 +63,17 @@ const NavBar = ({ userRole, handleLogouts, children }) => {
     handleLogouts();
     navigate("/");
   };
+
+  //theme toggle with keyboard control keys
+  useHotkeys("ctrl+c", () => {
+    if (theme === "blue") {
+      handleTheme("dark");
+    } else if (theme === "dark") {
+      handleTheme("light");
+    } else {
+      handleTheme("blue");
+    }
+  });
 
   const toggleLeftMenu = () => {
     updateIsMenuOpen({ value: !isMenuOpen?.value });

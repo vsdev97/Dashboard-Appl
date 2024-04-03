@@ -367,3 +367,8 @@ main {
   font-size: 14px;
   border-radius: 10px;
 }
+
+.iconBg{
+  background: var(--g-border-kbi);
+  color: var(--g-main-icon-color);
+}

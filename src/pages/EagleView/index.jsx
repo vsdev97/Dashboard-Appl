@@ -3,7 +3,7 @@ import React from "react";
 import KpiTwoComponent from "../../components/Kpi/KpiTwo";
 import KPIOneComponent from "../../components/Kpi/KpiOne";
 import ChartWidget from "../../components/Widget/index";
-import { FilterIcon, Three60Icon } from "../../Icons";
+import { CalendarIcon, FilterIcon, Three60Icon } from "../../Icons";
 
 const EagleView = () => {
   const kpiData = [
@@ -52,24 +52,34 @@ const EagleView = () => {
     values: [0, 0, 0, 20, 15],
   };
   return (
-    <div className="flex h-full w-full flex-col" style={{ height: "100vh" }}>
-      <div
-        style={{
-          height: "65px",
-          background: "var(--bg-color)",
-          color: "var(--text-color)",
-          display: "flex",
-          alignItems: "center",
-          padding: "10px",
-        }}
-      >
-        <Three60Icon /> &nbsp; <span style={{ fontSize: "16px", fontWeight: "600" }}>360 View</span>
-        <div
-          class="flex iconBg p-2 rounded cursor-pointer items-center ml-3"
-          aria-describedby="popup-182"
-        >
-          <div class="flex items-center w-full">
-            <FilterIcon />
+    <div className="flex flex-row h-full w-full flex-col" style={{ height: "100vh" }}>
+      <div class="flex md:flex-row flex items-center py-3 px-4">
+        <span class="pr-3 text-md md:text-md TitleMarginSet truncateText">
+          <div class="flex items-center font-semibold gap-3 pl-2">
+            <Three60Icon />
+            360 View
+          </div>
+        </span>
+        <div class="flex ml-auto">
+          <div class="relative inline-block text-left select-none">
+            <div
+              role="button"
+              tabindex="-1"
+              class="flex items-center justify-center space-x-2 w-full  rounded  p-2 iconBg"
+            >
+              <CalendarIcon />
+              <span class="cursor-pointer text-sm md:block">Jan 01, 2024 - Apr 03, 2024</span>
+            </div>
+          </div>
+          <div
+            class="flex iconBg p-2 rounded cursor-pointer items-center ml-3"
+            aria-describedby="popup-1"
+          >
+            <div class="flex items-center w-full">
+              <div>
+                <FilterIcon />
+              </div>
+            </div>
           </div>
         </div>
       </div>
