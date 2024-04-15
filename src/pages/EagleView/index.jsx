@@ -2,8 +2,8 @@ import React from "react";
 
 import KpiTwoComponent from "../../components/Kpi/KpiTwo";
 import KPIOneComponent from "../../components/Kpi/KpiOne";
-import ChartWidget from "../../components/Widget/index";
 import { CalendarIcon, FilterIcon, Three60Icon } from "../../Icons";
+import { CompliantComponent, LastPatchedComponent, LinuxComplianceComponent, LinuxPatchComponent, WindowComplianceComponent, WindowPatchComponent, LastRebootedComponent } from "./ChartWidgets";
 
 const EagleView = () => {
   const kpiData = [
@@ -23,34 +23,6 @@ const EagleView = () => {
     },
   ];
 
-  const barChartData = {
-    categories: ["Jan 2024", "Feb 2024", "Mar 2024"],
-    values: [0, 0, 15],
-  };
-
-  const lineChartData = {
-    categories: ["Jan 2024", "Feb 2024", "Mar 2024"],
-    values: [20, 0, 15],
-  };
-
-  const patchChartData = {
-    categories: ["Jan 2024", "Feb 2024", "Mar 2024"],
-    values: [0, 0, 25],
-  };
-  const complianceChartData = {
-    categories: ["Jan 2024", "Feb 2024", "Mar 2024"],
-    values: [30, 10, 0],
-  };
-
-  const complianceData = {
-    categories: ["Jan 2024", "Feb 2024", "Mar 2024"],
-    values: [100, 20, 0],
-  };
-
-  const countData = {
-    categories: ["0-30 Days", "31-60 Days", "61-90 Days", "> 90 Days", "No Data"],
-    values: [0, 0, 0, 20, 15],
-  };
   return (
     <div className="flex flex-row h-full w-full flex-col" style={{ height: "100vh" }}>
       <div class="flex md:flex-row flex items-center py-3 px-4">
@@ -133,32 +105,82 @@ const EagleView = () => {
           </div>
         </div>
         <div className="flex flex-row justify-between gap-3">
-          <ChartWidget data={barChartData} title="Windows Patch Trend" defaultChartType="line" />
-          <ChartWidget data={lineChartData} title="Linux Patch Trend" defaultChartType="line" />
+          <div
+            style={{
+              width: "100%",
+              height: "400px",
+              color: "var(--kpi-text)",
+              borderRadius: "10px",
+            }}
+          >
+            <WindowPatchComponent />
+          </div>
+          <div
+            style={{
+              width: "100%",
+              height: "400px",
+              color: "var(--kpi-text)",
+              borderRadius: "10px",
+            }}
+          >
+            <LinuxPatchComponent />
+          </div>
         </div>
         <div className="flex flex-row justify-between gap-3">
-          <ChartWidget
-            data={patchChartData}
-            title="Compliant Vs Non Compliant"
-            defaultChartType="line"
-          />
-          <ChartWidget
-            data={complianceChartData}
-            title="Window Patch Compliance"
-            defaultChartType="bar"
-          />
+          <div
+            style={{
+              width: "100%",
+              height: "400px",
+              color: "var(--kpi-text)",
+              borderRadius: "10px",
+            }}
+          >
+            <CompliantComponent />
+          </div>
+          <div
+            style={{
+              width: "100%",
+              height: "400px",
+              color: "var(--kpi-text)",
+              borderRadius: "10px",
+            }}
+          >
+            <WindowComplianceComponent />
+          </div>
         </div>
         <div className="flex flex-row justify-between gap-3">
-          <ChartWidget
-            data={complianceData}
-            defaultChartType="bar"
-            title="Linux Patch Compliance"
-          />
-          <ChartWidget
-            data={countData}
-            title="Last Patched - Aging Chart (Count)"
-            defaultChartType="bar"
-          />
+          <div
+            style={{
+              width: "100%",
+              height: "400px",
+              color: "var(--kpi-text)",
+              borderRadius: "10px",
+            }}
+          >
+            <LinuxComplianceComponent />
+          </div>
+          <div
+            style={{
+              width: "100%",
+              height: "400px",
+              color: "var(--kpi-text)",
+              borderRadius: "10px",
+            }}
+          >
+            <LastPatchedComponent />
+          </div>
+        </div>
+        <div className="flex flex-row justify-between gap-3">
+          <div
+            style={{
+              width: "50%",
+              height: "400px",
+              color: "var(--kpi-text)",
+              borderRadius: "10px",
+            }}
+          >
+            <LastRebootedComponent />
+          </div>
         </div>
       </div>
     </div>

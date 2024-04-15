@@ -190,11 +190,6 @@ main {
     @apply py-3 px-2;
     background-color: #16263c;
   }
-  .aside_menus,
-  .popup-content {
-    background-color: #ffffff;
-    border-right: 1px solid #6480a1;
-  }
   .sectionMarginSet {
     width: calc(100% - 54px);
     margin-left: 54px;
@@ -267,19 +262,6 @@ main {
   .mainMenuOverlay {
     left: 300px;
   }
-}
-
-.aside_menus {
-  background: #213859;
-}
-
-.aside_menus,
-.popup-content {
-  background-color: none;
-  /* @media screen(md) { */
-  background: #213859;
-  border-right: 1px solid #699feb;
-  /* } */
 }
 .side_menu_a_wrap{
   background: var(--aside-menu-bg-color);

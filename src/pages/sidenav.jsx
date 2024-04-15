@@ -36,7 +36,7 @@ export const defaultAsideToggleObj = atom({
   },
 });
 
-const NavBar = ({ userRole, handleLogouts, children }) => {
+const NavBar = ({ handleLogouts, children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(null);
   const [theme, setTheme] = React.useState("blue");
@@ -125,7 +125,7 @@ const NavBar = ({ userRole, handleLogouts, children }) => {
             <div className="aside_avatar">
               {/* {userRole?.firstname?.charAt(0)}
                 {userRole?.lastname?.charAt(0)} */}
-              VM
+              SR
             </div>
             <h1
               style={{
