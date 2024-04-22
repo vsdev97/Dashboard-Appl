@@ -1,14 +1,12 @@
 import PropTypes from "prop-types";
-import React, { useRef } from "react";
+import React from "react";
 import Popup from "reactjs-popup";
 import { Loader } from "../loader";
-import {
-  ChartOptionsIcon,
-    DownloadIcon,
-    EmailIcon,
-  RefreshIcon,
-} from "../../Icons";
-import { toPng } from "html-to-image";
+import { toast } from "react-toastify";
+import { createFileName } from "use-react-screenshot";
+import { ChartOptionsIcon, DownloadIcon, EmailIcon, RefreshIcon } from "../../Icons";
+import html2canvas from "html2canvas";
+import EmailComponent from "../email";
 
 export const WidgetHeaderComponent = (props) => {
   const {
@@ -51,6 +49,7 @@ export const WidgetHeaderComponent = (props) => {
   const [filterPopup, setFilterPopup] = React.useState(false);
   const [widgetFilterPopup, setWidgetFilterPopup] = React.useState(false);
   const [infoiconOpen, setinfoIcon] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const _handleFullScreen = () => {
     setIsFullScreen(!isFullScreen);
@@ -65,23 +64,30 @@ export const WidgetHeaderComponent = (props) => {
   const _downloadScreenshot = async () => {
     handleCloseFilterPopup();
     setIsDownloading(true);
-
-    toPng(referingMain.current, { cacheBust: false })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = "my-image-name.png";
-        link.href = dataUrl;
-        link.click();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
+    try {
+      const canvas = await html2canvas({ ref: referingMain });
+      const base64Img = canvas?.toDataURL("image/png;base64");
+      download(base64Img);
+    } catch (e) {
+      toast.error("Failed to capture image!");
+    }
     setIsDownloading(false);
   };
-  const _emailExport = () => {
-    setIsExporting(true);
-    handleCloseFilterPopup();
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const download = (image, { name = typeof title === "string", extension = "jpg" } = {}) => {
+    const a = document.createElement("a");
+    a.href = image;
+    a.download = createFileName(extension, name);
+    setIsDownloading(false);
+    a.click();
   };
   const handleNavigation = () => {
     setFilterPopup(false);
@@ -93,15 +99,11 @@ export const WidgetHeaderComponent = (props) => {
     document.body.addEventListener("scroll", handleNavigation, {
       passive: true,
     });
-    document
-      .getElementById("moduleScroll")
-      ?.addEventListener("scroll", handleNavigation);
+    document.getElementById("moduleScroll")?.addEventListener("scroll", handleNavigation);
 
     return () => {
       document.body.removeEventListener("scroll", handleNavigation);
-      document
-        .getElementById("moduleScroll")
-        ?.removeEventListener("scroll", handleNavigation);
+      document.getElementById("moduleScroll")?.removeEventListener("scroll", handleNavigation);
     };
   }, []);
 
@@ -109,17 +111,13 @@ export const WidgetHeaderComponent = (props) => {
     <React.Fragment>
       <header
         className={`${
-          dropDownMobile
-            ? "dropDownAlignment"
-            : "flex-initial flex items-center justify-between"
+          dropDownMobile ? "dropDownAlignment" : "flex-initial flex items-center justify-between"
         } ${widgetHeaderClass}`}
         style={{ background: "var(--kpi-bg)" }}
         title={infoContent?.short}
       >
         <div className="flex">
-          {headerIcon && (
-            <span className="pr-1 opacity-70"> {headerIcon} </span>
-          )}
+          {headerIcon && <span className="pr-1 opacity-70"> {headerIcon} </span>}
           {moduleUrl ? (
             <a href={moduleUrl}>
               {ToolTipText ? (
@@ -256,7 +254,7 @@ export const WidgetHeaderComponent = (props) => {
                   cursor: "pointer",
                   maxHeight: "calc(100vh - 100px)",
                   overflowY: "auto",
-                  display: "flex",
+                  // display: "flex",
                   flexDirection: "column",
                   paddingBottom: "0.25rem",
                   paddingTop: "0.25rem",
@@ -271,7 +269,7 @@ export const WidgetHeaderComponent = (props) => {
                       // justifyContent: "flex-start",
                       gap: "10px",
                       cursor: "pointer",
-                      padding: "0.75rem 1rem",
+                      // padding: "0.75rem 1rem",
                     }}
                     onClick={() => {
                       handleRefresh();
@@ -281,9 +279,7 @@ export const WidgetHeaderComponent = (props) => {
                     <span className="global_togglePopup-item-icon">
                       <RefreshIcon />
                     </span>
-                    <span className={"global_togglePopup-item-text"}>
-                      Refresh
-                    </span>
+                    <span className={"global_togglePopup-item-text"}>Refresh</span>
                   </div>
                 )}
                 {!isFullScreen && configWrap?.screenMax && (
@@ -295,7 +291,7 @@ export const WidgetHeaderComponent = (props) => {
                       // justifyContent: "flex-start",
                       gap: "10px",
                       cursor: "pointer",
-                      padding: "0.75rem 1em",
+                      // padding: "0.75rem 1em",
                     }}
                     onClick={() => _handleFullScreen()}
                   >
@@ -321,9 +317,7 @@ export const WidgetHeaderComponent = (props) => {
                           </g>
                         </svg>
                       </span>
-                      <span className={"global_togglePopup-item-text"}>
-                        Maximize
-                      </span>
+                      <span className={"global_togglePopup-item-text"}>Maximize</span>
                     </React.Fragment>
                     {isFullScreen && (
                       <React.Fragment>
@@ -348,9 +342,7 @@ export const WidgetHeaderComponent = (props) => {
                             </g>
                           </svg>
                         </span>
-                        <span className={"global_togglePopup-item-text"}>
-                          Minimize
-                        </span>
+                        <span className={"global_togglePopup-item-text"}>Minimize</span>
                       </React.Fragment>
                     )}
                   </div>
@@ -366,16 +358,14 @@ export const WidgetHeaderComponent = (props) => {
                         // justifyContent: "flex-start",
                         gap: "10px",
                         cursor: "pointer",
-                        padding: "0.75rem 1em",
+                        // padding: "0.75rem 1em",
                       }}
                       onClick={() => _downloadScreenshot()}
                     >
                       <span className="global_togglePopup-item-icon">
                         <DownloadIcon />
                       </span>
-                      <span className={"global_togglePopup-item-text"}>
-                        Download
-                      </span>
+                      <span className={"global_togglePopup-item-text"}>Download</span>
                     </div>
                   </>
                 )}
@@ -389,33 +379,25 @@ export const WidgetHeaderComponent = (props) => {
                       // justifyContent: "flex-start",
                       gap: "10px",
                       cursor: "pointer",
-                      padding: "0.75rem 1em",
+                      // padding: "0.75rem 1em",
                     }}
-                    onClick={() => _emailExport()}
+                    onClick={openModal}
                   >
                     <span className="global_togglePopup-item-icon">
                       <EmailIcon />
                     </span>
-                    <span className={"global_togglePopup-item-text"}>
-                      Email
-                    </span>
+                    <span className={"global_togglePopup-item-text"}>Email</span>
                   </div>
                 )}
               </div>
             </Popup>
           )}
-          <div id="infoicon-mobile">
-          </div>
+          <div id="infoicon-mobile"></div>
         </div>
       </header>
-      {/* {isExporting && (
-        <EmailComponent
-          exportref={referingMain}
-          filterValues={filterValues}
-          close={() => setIsExporting(false)}
-          name={typeof title === "string" ? title : titleStr}
-        />
-      )} */}
+      {isModalOpen && (
+        <EmailComponent isOpen={isModalOpen} onClose={closeModal} exportref={referingMain} />
+      )}
     </React.Fragment>
   );
 };

@@ -28,7 +28,6 @@ export const Login = ({ setUserRole }) => {
       ...formData,
       [e.target.name]: value,
     });
-    console.log(formData, "formData");
   };
 
   const handleSubmit = (e) => {

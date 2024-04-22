@@ -3,7 +3,15 @@ import React from "react";
 import KpiTwoComponent from "../../components/Kpi/KpiTwo";
 import KPIOneComponent from "../../components/Kpi/KpiOne";
 import { CalendarIcon, FilterIcon, Three60Icon } from "../../Icons";
-import { CompliantComponent, LastPatchedComponent, LinuxComplianceComponent, LinuxPatchComponent, WindowComplianceComponent, WindowPatchComponent, LastRebootedComponent } from "./ChartWidgets";
+import {
+  CompliantComponent,
+  LastPatchedComponent,
+  LinuxComplianceComponent,
+  LinuxPatchComponent,
+  WindowComplianceComponent,
+  WindowPatchComponent,
+  LastRebootedComponent,
+} from "./ChartWidgets";
 
 const EagleView = () => {
   const kpiData = [
@@ -56,17 +64,18 @@ const EagleView = () => {
         </div>
       </div>
       <div
+        id="moduleScroll"
         style={{
           height: "100%",
           background: "var(--bg-color)",
           color: "var(--text-color)",
           width: "100%",
-          padding: "10px",
+          padding: "8px",
           overflowY: "scroll",
         }}
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-5"
       >
-        <div className="flex flex-row  justify-between gap-3">
+        <div className="flex flex-row justify-between gap-3">
           {kpiData?.map((data, index) => (
             <div
               key={index}

@@ -263,9 +263,9 @@ main {
     left: 300px;
   }
 }
-.side_menu_a_wrap{
+.side_menu_a_wrap {
   background: var(--aside-menu-bg-color);
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   font-size: 1rem;
   height: 26px;
   line-height: 1.5rem;
@@ -275,21 +275,21 @@ main {
   display: flex;
   justify-content: center;
 }
-.side_menu_a_wrap_icon{
+.side_menu_a_wrap_icon {
   color: var(--aside-menu-icon-color);
   font-size: 1.125rem;
   line-height: 1.75rem;
-};
+}
 
-.side_menu_a_wrap_icon_patching{
+.side_menu_a_wrap_icon_patching {
   color: var(--aside-menu-bg-color);
   font-size: 1.125rem;
   line-height: 1.75rem;
-};
+}
 
-.side_menu_wrap{
+.side_menu_wrap {
   background: var(--aside-menu-bg-colors);
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   font-size: 1rem;
   height: 26px;
   line-height: 1.5rem;
@@ -315,7 +315,7 @@ main {
   color: #fff; /* Text color of the tooltip */
   font-size: 14px; /* Increase font size */
   border-radius: 5px;
-  white-space: nowrap;/* Ensure tooltip text doesn't wrap */
+  white-space: nowrap; /* Ensure tooltip text doesn't wrap */
 }
 
 .link_text {
@@ -330,27 +330,163 @@ main {
 ::-webkit-scrollbar,
 ::-webkit-scrollbar-thumb,
 ::-webkit-scrollbar-corner {
-	background: transparent;
+  background: transparent;
 }
 
 :hover::-webkit-scrollbar-thumb {
-	background: var(--app-scroll);
+  background: var(--app-scroll);
 }
 
-.global_togglePopup-body{
-  flex-direction: column;
+.global_togglePopup-body {
+  /* flex-direction: column; */
   align-items: center;
   color: var(--text-color);
   background: var(--sidebar-bg-color);
   cursor: pointer;
-  padding: .25rem .75rem;
+  /* padding: .25rem .75rem; */
   white-space: nowrap;
-  align-items: center; 
   font-size: 14px;
   border-radius: 10px;
+  margin-left: 10px;
 }
 
-.iconBg{
+.global_togglePopup-item {
+  align-items: center;
+  color: var(--g-panel-menu-list-text-main);
+  cursor: pointer;
+  display: flex;
+  padding: 0.25rem 0.75rem;
+  white-space: nowrap;
+}
+
+.global_togglePopup-content .global_togglePopup-body {
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.iconBg {
   background: var(--g-border-kbi);
   color: var(--g-main-icon-color);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal {
+  background-color: #161616;
+  width: 400px;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.modal-header span {
+  font-size: 20px;
+}
+
+.close-icon {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-body .input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #666666;
+  color: #fff;
+}
+
+.input-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.modal-footer {
+  text-align: center;
+}
+
+.modal-footer button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-footer button:nth-child(1) {
+  background-color: #363636;
+}
+
+.modal-footer button:nth-child(2) {
+  background-color: #007bff;
+  color: white;
+}
+.export_email_img {
+  height: 100%;
+  width: 100%;
+}
+
+.rdg {
+  width: 100%;
+  height: 100%;
+  --rdg-header-background-color: none;
+  --rdg-color: var(--text-color);
+  --rdg-border-color: var(--border-color);
+  --rdg-background-color: var(--background-color);
+  --rdg-row-hover-background-color: var(--menu-hover-color);
+  --rdg-selection-color: "transparent";
+}
+
+.rdg-cell {
+  border-bottom: 1px solid var(--rdg-border-color);
+}
+
+.rdg-row {
+  font-size: 13px;
+  text-overflow: ellipsis;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.rdg-header-row{
+  font-size: 14px;
+  cursor: col-resize;
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inset-block-end: 0;
+  inline-size: 10px;
+  touch-action: none;
+  font-weight: normal;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";;
 }

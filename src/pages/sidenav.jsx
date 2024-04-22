@@ -125,7 +125,7 @@ const NavBar = ({ handleLogouts, children }) => {
             <div className="aside_avatar">
               {/* {userRole?.firstname?.charAt(0)}
                 {userRole?.lastname?.charAt(0)} */}
-              SR
+              VM
             </div>
             <h1
               style={{

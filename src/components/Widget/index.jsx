@@ -569,9 +569,6 @@ export const ChartWidgetComponent = (props) => {
                       >
                         <span
                           className="global_togglePopup-body"
-                          style={{
-                            alignItems: "left",
-                          }}
                         >
                           {chart === "area" && <AreaChartSvg />}
                           {chart === "line" && <LineChartSvg />}

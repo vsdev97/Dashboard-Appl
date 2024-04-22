@@ -1,6 +1,5 @@
 import { useLocation } from "react-router-dom";
 import Popup from "reactjs-popup";
-// import { allModuleRoles, getLoggedInUser } from '..';
 
 export const ValueValidation = (value, unit = undefined, isData) => {
   if (isData) {
