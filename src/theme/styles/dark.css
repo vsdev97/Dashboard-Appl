@@ -15,4 +15,7 @@
   --border-color: #444;
   --background-color: #1a1a1a;
   --menu-hover-color: #272727;
+  --bg-kbi: var(--bg-color);
+  --bg-widget-sidebar: #161616;
+  --app-scroll: #666666;;
 }

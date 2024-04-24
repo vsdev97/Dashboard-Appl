@@ -40,8 +40,12 @@ export const TableComponent = ({ columns, rows }) => {
   return (
     <>
       {loading && (
-        <div className="flex w-full items-center justify-center content-center" style={{ height: "calc(100vh - 130px)"}}>
-          <Loader /><span className="pl-2 text-sm ">Loading...</span>
+        <div
+          className="flex w-full items-center justify-center content-center"
+          style={{ height: "calc(100vh - 130px)" }}
+        >
+          <Loader />
+          <span className="pl-2 text-sm ">Loading...</span>
         </div>
       )}
       {!loading && (
@@ -54,39 +58,43 @@ export const TableComponent = ({ columns, rows }) => {
             enableColumnResize={true}
           />
           <div className="flex justify-between w-100">
-            <div className="pt-8 text-xs tracking-normal text-gray-500 font-semibold">
+            <div className="pt-8 text-sm tracking-normal text-gray-500 font-semibold">
               <span>{`Showing ${currentPage === 1 ? 1 : startRecords} to ${
                 totalRows === rows.length ? totalRows : endRecords
               } of ${totalRows} entries`}</span>
             </div>
             <div className="pt-6">
               <button
-                disabled={currentPage === 1 || totalRows === columns?.length}
-                onClick={() => onPageChange && onPageChange(1)}
+                disabled={currentPage === 1 || totalRows <= pageSize}
+                onClick={() => onPageChange(1)}
                 className="cursor-pointer"
+                aria-label="First Page"
               >
-                <IconChevronLeftPipe size={16} color="#6c717c" />
+                <IconChevronLeftPipe size={18} color="#6c717c" />
               </button>
               <button
-                disabled={currentPage === 1 || totalRows === columns?.length}
-                onClick={() => onPageChange && onPageChange(currentPage - 1)}
+                disabled={currentPage === 1 || totalRows <= pageSize}
+                onClick={() => onPageChange(currentPage - 1)}
                 className="cursor-pointer"
+                aria-label="Previous Page"
               >
-                <IconChevronLeft size={16} color="#6c717c" />
+                <IconChevronLeft size={18} color="#6c717c" />
               </button>
               <button
                 disabled={currentPage === totalPages}
-                onClick={() => onPageChange && onPageChange(currentPage + 1)}
+                onClick={() => onPageChange(currentPage + 1)}
                 className="cursor-pointer"
+                aria-label="Next Page"
               >
-                <IconChevronRight size={16} color="#6c717c" />
+                <IconChevronRight size={18} color="#6c717c" />
               </button>
               <button
-                disabled={currentPage === totalPages || totalRows === columns?.length}
-                onClick={() => onPageChange && onPageChange(totalPages)}
+                disabled={currentPage === totalPages || totalRows <= pageSize}
+                onClick={() => onPageChange(totalPages)}
                 className="cursor-pointer"
+                aria-label="Last Page"
               >
-                <IconChevronRightPipe size={16} color="#6c717c" />
+                <IconChevronRightPipe size={18} color="#6c717c" />
               </button>
             </div>
           </div>

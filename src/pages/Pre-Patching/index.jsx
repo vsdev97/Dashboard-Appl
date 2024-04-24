@@ -1,179 +1,95 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TableComponent } from "../../components/Table";
+import { FilterIcon, ThreeDotIcon } from "../../Icons";
+import { IconFileTypeCsv } from "@tabler/icons-react";
+import { saveAs } from "file-saver";
+import { columns, rows } from "../../constant";
+
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
 
 const PrePatchng = () => {
-  const columns = [
-    { key: "site_name", name: "Site Name" },
-    { key: "site_code", name: "Site Code" },
-    { key: "site_manager", name: "Site Manager" },
-    { key: "division", name: "Division" },
-    { key: "city", name: "City" },
-    { key: "country", name: "Country" },
-    { key: "handbook_status", name: "Handbook Status" },
-    { key: "comments", name: "Comments" },
-  ];
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 1000);
 
-  const rows = [
-    {
-      site_name: "Persian",
-      site_code: "Salmon",
-      site_manager: "-",
-      division: "Life",
-      city: "New York",
-      country: "USA",
-      handbook_status: "Does Not Exist",
-      comments: "Sales Office, Consumer",
-    },
-    {
-      site_name: "Siamese",
-      site_code: "Tuna",
-      site_manager: "-",
-      division: "Auto",
-      city: "Los Angeles",
-      country: "USA",
-      handbook_status: "Active",
-      comments:
-        "Manufacturing Plant for Consumer Products  (repackage of products) and Automotive Operations",
-    },
-    {
-      site_name: "Maine Coon",
-      site_code: "Trout",
-      site_manager: "-",
-      division: "HCS",
-      city: "Chicago",
-      country: "USA",
-      handbook_status: "Verified",
-      comments:
-        "A smaller number of Sales representatives are present from Site is mainly for DTS. Lifestyle and Auto",
-    },
-    {
-      site_name: "Sphynx",
-      site_code: "Catfish",
-      site_manager: "-",
-      division: "Life, Corp",
-      city: "Houston",
-      country: "USA",
-      handbook_status: "Does Not Exist",
-      comments: "Sales Office, Consumer",
-    },
-    {
-      site_name: "Bengal",
-      site_code: "Marlin",
-      site_manager: "-",
-      division: "Pro",
-      city: "Miami",
-      country: "USA",
-      handbook_status: "Active",
-      comments: "Manufacturing Plant for Electronics",
-    },
-    {
-      site_name: "Ragdoll",
-      site_code: "Bass",
-      site_manager: "-",
-      division: "DTS, Auto",
-      city: "San Francisco",
-      country: "USA",
-      handbook_status: "Verified",
-      comments: "DTS Center",
-    },
-    {
-      site_name: "Scottish Fold",
-      site_code: "Pike",
-      site_manager: "-",
-      division: "Life, Auto",
-      city: "Seattle",
-      country: "USA",
-      handbook_status: "Does Not Exist",
-      comments: "Sales Office, Consumer Electronics",
-    },
-    {
-      site_name: "British Shorthair",
-      site_code: "Walleye",
-      site_manager: "-",
-      division: "Corp, Life",
-      city: "Boston",
-      country: "USA",
-      handbook_status: "Active",
-      comments: "Distribution Center",
-    },
-    {
-      site_name: "Persian",
-      site_code: "Bluefish",
-      site_manager: "-",
-      division: "Corp, Life",
-      city: "Austin",
-      country: "USA",
-      handbook_status: "Verified",
-      comments: "Manufacturing Plant",
-    },
-    {
-      site_name: "Siamese",
-      site_code: "Carp",
-      site_manager: "-",
-      division: "Life",
-      city: "Portland",
-      country: "USA",
-      handbook_status: "Does Not Exist",
-      comments: "Sales Office, Consumer Electronics",
-    },
-    {
-      site_name: "Maine Coon",
-      site_code: "Salmon",
-      site_manager: "-",
-      division: "Corp",
-      city: "Denver",
-      country: "USA",
-      handbook_status: "Active",
-      comments: "Research & Development Center",
-    },
-    {
-      site_name: "Siberian",
-      site_code: "Trout",
-      site_manager: "-",
-      division: "HCS",
-      city: "Dallas",
-      country: "USA",
-      handbook_status: "Verified",
-      comments: "Manufacturing Plant for Automotive",
-    },
-    {
-      site_name: "Russian Blue",
-      site_code: "Sturgeon",
-      site_manager: "-",
-      division: "Corp, Life",
-      city: "Las Vegas",
-      country: "USA",
-      handbook_status: "Does Not Exist",
-      comments: "Sales Office, Consumer Goods",
-    },
-  ];
+  const filteredRows = rows?.filter((row) =>
+    Object.values(row).some(
+      (value) =>
+        typeof value === "string" && value.toLowerCase().includes(debouncedSearch.toLowerCase()),
+    ),
+  );
+
+  const exportToCsv = () => {
+    const csvData = [];
+    csvData?.push(columns.map((col) => col.name));
+    filteredRows.forEach((row) => {
+      csvData?.push(columns.map((col) => row[col.key]));
+    });
+    const csvContent = csvData.map((row) => row.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+    saveAs(blob, "Pre-Patching.csv");
+  };
 
   return (
-    <div className="flex h-full w-full flex-col" style={{ height: "100vh" }}>
+    <div className="flex w-full flex-col" style={{ height: "100%" }}>
       <div
         style={{
-          height: "65px",
           background: "var(--bg-color)",
           color: "var(--text-color)",
-          display: "flex",
           alignItems: "center",
           padding: "10px",
+          display: "flex",
+          width: "100%",
+          justifyContent: "space-between",
         }}
       >
         <span style={{ fontSize: "16px", fontWeight: "600" }}>Pre-Patching</span>
+        <div className="flex items-center">
+          <input
+            className="py-2 rounded bg-[var(--bg-widget-sidebar)] pl-4 border-none"
+            type="text"
+            placeholder="Search"
+            tabindex="0"
+            autoComplete="off"
+            onChange={(e) => setSearch(e.currentTarget.value)}
+          />
+          {/* <ExportCsvICon /> */}
+          <IconFileTypeCsv size={28} onClick={exportToCsv} style={{ paddingLeft: "5px", cursor: "pointer" }} />
+          <div
+            class="flex iconBg p-2 rounded cursor-pointer items-center ml-3"
+            aria-describedby="popup-1"
+          >
+            <div class="flex items-center w-full">
+              <FilterIcon />
+            </div>
+          </div>
+          <ThreeDotIcon />
+        </div>
       </div>
       <div
         style={{
-          height: "calc(100vh - 130px)",
           background: "var(--bg-color)",
           color: "var(--text-color)",
           width: "100%",
           padding: "10px",
-          overflowY: "scroll",
+          overflowY: "hidden",
         }}
       >
         <div>
-          <TableComponent columns={columns} rows={rows} />
+          <TableComponent columns={columns} rows={filteredRows} />
         </div>
       </div>
     </div>
